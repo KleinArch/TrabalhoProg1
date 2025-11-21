@@ -1,75 +1,68 @@
-import random
+import random 
 import time
-import os
+import os 
 
-##ETAPA 2:
-class Produto:
-    def __init__(self, id_produto: int, nome: str, categoria: str,
-                 preco_unitario: float, qtd_estoque: int, fornecedores: list):
-        self.id_produto = id_produto
-        self.nome = nome
-        self.categoria = categoria
-        self.preco_unitario = preco_unitario
-        self.qtd_estoque = qtd_estoque
-        self.fornecedores = fornecedores
+def gerar_dados(num_itens: int, nome_arquivo: str):
+    startTime = time.time()
 
-    def __str__(self):
-        return (f"ID: {self.id_produto:<4} | Nome: {self.nome:<20} | Categoria: {self.categoria:<10} | "
-                f"Preço: R${self.preco_unitario:>7.2f} | Estoque: {self.qtd_estoque:>5} | "
-                f"Fornecedores: {', '.join(self.fornecedores)}")
+    nomes_base =["itemA","itemB", "ItemC", "ItemD", "ItemE"]
+    categoria = ["Cat1", "Cat2", "Cat3"]
+    fornecedores_base = ["F1", "F2", "F3"]
 
-    def to_file_line(self):
-        fornecedores_str = ';'.join(self.fornecedores)
-        return (f"{self.id_produto}||{self.nome}||{self.categoria}||"
-                f"{self.preco_unitario:.2f}||{self.qtd_estoque}||{fornecedores_str}\n")
-    
+    cabecalho = "ID;Nome;Categoria;Preco;Qtd_Estoque;Fornecedores\n"
 
+    os.makedirs('dados', exist_ok=True)
+    caminho_arquivo = os.path.join('dados', nome_arquivo)
 
-def ler_dados_do_arquivo(nome_arquivo: str):
-    start_time = time.time()
+    with open(caminho_arquivo, 'w') as f:
+        f.write(cabecalho)
 
-    produtos = []
-    caminho_arquivo = os.path.join('data', nome_arquivo)
+        for i in range(1, num_itens + 1):
 
-    print(f"-> Lendo dados do arquivo: {caminho_arquivo}...")
+            id_produto = i
 
-    try:
-        with open(caminho_arquivo, 'r') as f:
-            next(f)
+            nome = random.choice(nomes_base) + str(i)
 
-            for linha in f:
-                linha = linha.strip()
-                if not linha:
-                    continue
+            categoria = random.choice(categoria)
 
-                partes = linha.split('||')
+            preco_unitario = round(random.uniform(1.0, 100.0), 2)
 
-                if len(partes) != 6:
-                    print(f"AVISO: Linha ignorada devido a formato incorreto: {linha}")
-                    continue
+            qtd_estoque = random.randint(10 ,5000)
 
-                try:
-                    id_produto = int(partes[0])
-                    nome = partes[1]
-                    categoria = partes[2]
-                    preco_unitario = float(partes[3])
-                    qtd_estoque = int(partes[4])
-                    fornecedores = partes[5].split(';') if partes[5] else []
+            num_fornecedores = random.randint(1, 3)
+            fornecedores_lista = random.sample(fornecedores_base, num_fornecedores)
+            fornecedores_str = ','.join(fornecedores_lista)
 
-                    produto = Produto(id_produto, nome, categoria, preco_unitario, qtd_estoque, fornecedores)
-                    produtos.append(produto)
+            linha = f"{id_produto};{nome};{categoria};{preco_unitario:.2f};{qtd_estoque};{fornecedores_str}\n"
 
-                except ValueError as e:
-                    print(f"ERRO DE CONVERSÃO: Não foi possível processar a linha: {linha}. Erro: {e}")
-
-    except FileNotFoundError:
-        print(f"ERRO: Arquivo '{caminho_arquivo}' não encontrado.")
-        return [], 0.0
+            f.write(linha)
 
     end_time = time.time()
-    tempo_computacional = end_time - start_time
-    print(f"   Concluído. Total de {len(produtos)} produtos carregados. Tempo de leitura: {tempo_computacional:.4f} segundos.")
-    return produtos, tempo_computacional
+    duracao = end_time = startTime
+
+
+def main():
+
+    TAMANHO_ARQUIVOS = {
+        "pequeno.txt": 20,
+        "medio.txt": 1000,
+        "grande.txt": 500000,
+        "gigante.txt": 2000000,
+    }
+
+    tempo_relatorio = {}
+
+    for nome, num_itens in TAMANHO_ARQUIVOS.items():
+        print(f"\nGerando arquivo: {nome} ({num_itens} linhas)")
+        tempo = gerar_dados(num_itens, nome)
+        tempo_relatorio[nome] = tempo
+
+    print("-----Tempos Finais de Geração (Relatório)-----")
+    for nome, tempo in tempo_relatorio.items():
+        print(f"--{nome}--: {tempo:.4f} segundos")
 
 if __name__ == "__main__":
-    main()
+    main()        
+
+        
+
