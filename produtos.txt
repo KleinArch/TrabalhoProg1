@@ -1,0 +1,11 @@
+ID,Nome,Preco,Quantidade
+1,Arroz,25.90,50
+2,Feijao,8.50,40
+3,Macarrao,4.20,100
+4,Oleo,6.90,60
+5,Acucar,3.50,80
+6,Cafe,12.90,30
+7,Farinha,5.70,70
+8,Sal,2.30,90
+9,Milho,7.20,55
+10,Chocolate,9.90,45
