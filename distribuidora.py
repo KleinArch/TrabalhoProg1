@@ -4,12 +4,12 @@ import time
 import os
 print("__________________________\nBem Vindo(a) ao DashBoard\n__________________________\n")
 while True:
-    print("Qual funão deseja acessar?\n|Selecionar banco de dados(1)\n|Visualizar banco de dados(2)\n|Criar bancos de dados(3)\n|Visualizar resultados(4)\n|Sair(0)")
+    print("Qual função deseja acessar?\n|Selecionar banco de dados(1)\n|Visualizar banco de dados(2)\n|Criar bancos de dados(3)\n|Visualizar resultados(4)\n|Sair(0)")
     resposta = int(input(":"))
     if resposta == 3:
         def geraArquivos():
             os.makedirs('dados', exist_ok=True)
-            n = int(input("qual tamanho de aruivo deseja gerar?\n(1-pequeno 2-médio 3-grande 4-gigante)\n:"))
+            n = int(input("Qual tamanho de arquivo que deseja gerar?\n(1-pequeno 2-médio 3-grande 4-gigante)\n:"))
             print("Gerando dados...")
             categorias = ["Alimento", "Bebida", 'Utensílio']
             def letrasAleatorias(n):

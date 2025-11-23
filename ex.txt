@@ -1,2 +1,0 @@
-A 14 8000.00 produtoA1 prdututoA2 produtoA3
-B 50 40000.00 produtoB1 prdututoB2 produtoB3
