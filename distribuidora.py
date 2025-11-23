@@ -17,7 +17,7 @@ class Produto:
         self.fornecedores = fornecedores   # lista real
 
     def __repr__(self):
-        return f"Produto({self.id}, {self.nome}, {self.categoria})"
+        return f"Produto({self.id}, {self.nome}, {self.categoria}, {self.preco}, {self.fornecedores})"
 
 def ler_arquivo(nome_arquivo: str):
 
@@ -56,6 +56,53 @@ def ler_arquivo(nome_arquivo: str):
 
     return produtos
 
+#------------ETAPA 3: Manipulação de Dados e Visualização-------------------------
+
+
+def adicionar_produto(produtos):
+    print("\n--- Adicionar Novo Produto ---")
+
+    id_produto = input("ID do produto: ")
+    nome = input("Nome do produto: ")
+    categoria = input("Categoria: ")
+    preco = float(input("Preço: "))
+    fornecedor = input("Fornecedor: ")
+
+    novo = Produto(
+        id_produto=id_produto,
+        nome=nome,
+        categoria=categoria,
+        preco=preco,
+        fornecedores=fornecedor
+    )
+
+    produtos.append(novo)
+
+    print("\nProduto adicionado com sucesso!")
+    print(novo)  # usa repr
+
+def alterar_linha(produtos):
+    print("\n---Alterando linha---")
+    n = int(input("Qual linha deseja alterar?\n:"))
+
+    id_produto = input("ID do produto: ")
+    nome = input("Nome do produto: ")
+    categoria = input("Categoria: ")
+    preco = float(input("Preço: "))
+    fornecedor = input("Fornecedor: ")
+
+    novo = Produto(
+        id_produto=id_produto,
+        nome=nome,
+        categoria=categoria,
+        preco=preco,
+        fornecedores=fornecedor
+    )
+
+    produtos[n] = novo
+
+    print("\nProduto adicionado com sucesso!")
+    print(novo)  # usa repr
 
 
 print("__________________________\nBem Vindo(a) ao DashBoard\n__________________________\n")
@@ -81,6 +128,8 @@ while True:
             adicionar_produto(produtos)
         elif a == 2:
             alterar_linha(produtos)
+        elif a == 3:
+            excluir_linha()
 
     if resposta == 3:
         def geraArquivos():
@@ -158,7 +207,8 @@ while True:
                             while nomeProduto in arquivo:
                                 nomeProduto = f'{nomeProduto}_{idproduto}'
                                 idproduto += 1
-                            precoProduto = precosAleatorios() categoria = random.choice(categorias)
+                            precoProduto = precosAleatorios() 
+                            categoria = random.choice(categorias)
                             arquivo.write(f"{id}|{categoria}|{nomeProduto}_{idproduto}|{precoProduto}|{nomeFornecedor}\n")
                 elif n == 4:
                     with open("dados/gigante.txt", "w") as arquivo:
@@ -191,51 +241,4 @@ while True:
 
 
 
-#------------ETAPA 3: Manipulação de Dados e Visualização-------------------------
-
-
-def adicionar_produto(produtos):
-    print("\n--- Adicionar Novo Produto ---")
-
-    id_produto = input("ID do produto: ")
-    nome = input("Nome do produto: ")
-    categoria = input("Categoria: ")
-    preco = float(input("Preço: "))
-    fornecedor = input("Fornecedor: ")
-
-    novo = Produto(
-        id_produto=id_produto,
-        nome=nome,
-        categoria=categoria,
-        preco=preco,
-        fornecedores=[fornecedor]
-    )
-
-    produtos.append(novo)
-
-    print("\nProduto adicionado com sucesso!")
-    print(novo)  # usa repr
-
-def alterar_linha(produtos):
-    print("\n---Alterando linha---")
-    n = int(input("Qual linha deseja alterar?\n:"))
-
-    id_produto = input("ID do produto: ")
-    nome = input("Nome do produto: ")
-    categoria = input("Categoria: ")
-    preco = float(input("Preço: "))
-    fornecedor = input("Fornecedor: ")
-
-    novo = Produto(
-        id_produto=id_produto,
-        nome=nome,
-        categoria=categoria,
-        preco=preco,
-        fornecedores=[fornecedor]
-    )
-
-    produtos[n] = novo
-
-    print("\nProduto adicionado com sucesso!")
-    print(novo)  # usa repr
 
