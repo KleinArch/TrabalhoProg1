@@ -2,14 +2,90 @@ import random
 import string
 import time
 import os
+
+produtos = []
+
+# ----------------------- ETAPA 2: LEITURA COM CLASSES ------------------------
+
+# Classe Produto — armazenará cada linha do arquivo
+class Produto:
+    def __init__(self, id_produto, nome, categoria, preco, fornecedores):
+        self.id = int(id_produto)
+        self.nome = nome
+        self.categoria = categoria
+        self.preco = float(preco)
+        self.fornecedores = fornecedores   # lista real
+
+    def __repr__(self):
+        return f"Produto({self.id}, {self.nome}, {self.categoria})"
+
+def ler_arquivo(nome_arquivo: str):
+
+    caminho = os.path.join("dados", nome_arquivo)
+    produtos = []
+
+    with open(caminho, "r") as f:
+        for linha in f:
+            linha = linha.strip()
+
+            if not linha:
+                continue  # ignora linhas vazias
+
+            campos = linha.split("|")
+
+            # Formato gerado:
+            # ID | CATEGORIA | NOME | PRECO | FORNECEDOR
+
+            id_produto = campos[0]
+            categoria = campos[1]
+            nome = campos[2]
+            preco = campos[3]
+            fornecedor = campos[4]
+
+            fornecedores = str(fornecedor)
+
+            produto = Produto(
+                id_produto=id_produto,
+                nome=nome,
+                categoria=categoria,
+                preco=preco,
+                fornecedores=fornecedores
+            )
+
+            produtos.append(produto)
+
+    return produtos
+
+
+
 print("__________________________\nBem Vindo(a) ao DashBoard\n__________________________\n")
 while True:
-    print("Qual funão deseja acessar?\n|Selecionar banco de dados(1)\n|Visualizar banco de dados(2)\n|Criar bancos de dados(3)\n|Visualizar resultados(4)\n|Sair(0)")
+    print("Qual função deseja acessar?\n|Selecionar banco de dados(1)\n|Visualizar banco de dados(2)\n|Criar bancos de dados(3)\n|Visualizar resultados(4)\n|Sair(0)")
     resposta = int(input(":"))
+
+    if resposta == 1:
+        m = int(input("Qual banco deseja acessar?\n(1-pequeno 2-médio 3-grande 4-gigante)\n:"))
+
+        if m == 1:
+           produtos = ler_arquivo("pequeno.txt")
+        elif m == 2:
+           produtos = ler_arquivo("medio.txt")
+        elif m == 3:
+           produtos = ler_arquivo("grande.txt")
+        elif m == 4:
+           produtos = ler_arquivo("gigante.txt")
+
+        a = int(input("Deseja adicionar uma linha(1), alterar uma linha(2) ou excluir uma linha(3)?\n:"))
+
+        if a == 1:
+            adicionar_produto(produtos)
+        elif a == 2:
+            alterar_linha(produtos)
+
     if resposta == 3:
         def geraArquivos():
             os.makedirs('dados', exist_ok=True)
-            n = int(input("qual tamanho de aruivo deseja gerar?\n(1-pequeno 2-médio 3-grande 4-gigante)\n:"))
+            n = int(input("qual tamanho de arquivo deseja gerar?\n(1-pequeno 2-médio 3-grande 4-gigante)\n:"))
             print("Gerando dados...")
             categorias = ["Alimento", "Bebida", 'Utensílio']
             def letrasAleatorias(n):
@@ -82,8 +158,7 @@ while True:
                             while nomeProduto in arquivo:
                                 nomeProduto = f'{nomeProduto}_{idproduto}'
                                 idproduto += 1
-                            precoProduto = precosAleatorios()
-                            categoria = random.choice(categorias)
+                            precoProduto = precosAleatorios() categoria = random.choice(categorias)
                             arquivo.write(f"{id}|{categoria}|{nomeProduto}_{idproduto}|{precoProduto}|{nomeFornecedor}\n")
                 elif n == 4:
                     with open("dados/gigante.txt", "w") as arquivo:
@@ -116,56 +191,51 @@ while True:
 
 
 
-# ----------------------- ETAPA 2: LEITURA COM CLASSES ------------------------
-
-# Classe Produto — armazenará cada linha do arquivo
-class Produto:
-    def __init__(self, id_produto, nome, categoria, preco, qtd_estoque, fornecedores):
-        self.id = int(id_produto)
-        self.nome = nome
-        self.categoria = categoria
-        self.preco = float(preco)
-        self.fornecedores = fornecedores   # lista real
-
-    def __repr__(self):
-        return f"Produto({self.id}, {self.nome}, {self.categoria})"
-
-def ler_arquivo(nome_arquivo: str):
-
-    caminho = os.path.join("dados", nome_arquivo)
-    produtos = []
-
-    with open(caminho, "r") as f:
-        for linha in f:
-            linha = linha.strip()
-
-            if not linha:
-                continue  # ignora linhas vazias
-
-            campos = linha.split("|")
-
-            # Formato gerado:
-            # ID | CATEGORIA | NOME | PRECO | FORNECEDOR
-
-            id_produto = campos[0]
-            categoria = campos[1]
-            nome = campos[2]
-            preco = campos[3]
-            fornecedor = campos[4]
-
-            fornecedores = [fornecedor]
-
-            produto = Produto(
-                id_produto=id_produto,
-                nome=nome,
-                categoria=categoria,
-                preco=preco,
-                fornecedores=fornecedores
-            )
-
-            produtos.append(produto)
-
-    return produtos
+#------------ETAPA 3: Manipulação de Dados e Visualização-------------------------
 
 
+def adicionar_produto(produtos):
+    print("\n--- Adicionar Novo Produto ---")
+
+    id_produto = input("ID do produto: ")
+    nome = input("Nome do produto: ")
+    categoria = input("Categoria: ")
+    preco = float(input("Preço: "))
+    fornecedor = input("Fornecedor: ")
+
+    novo = Produto(
+        id_produto=id_produto,
+        nome=nome,
+        categoria=categoria,
+        preco=preco,
+        fornecedores=[fornecedor]
+    )
+
+    produtos.append(novo)
+
+    print("\nProduto adicionado com sucesso!")
+    print(novo)  # usa repr
+
+def alterar_linha(produtos):
+    print("\n---Alterando linha---")
+    n = int(input("Qual linha deseja alterar?\n:"))
+
+    id_produto = input("ID do produto: ")
+    nome = input("Nome do produto: ")
+    categoria = input("Categoria: ")
+    preco = float(input("Preço: "))
+    fornecedor = input("Fornecedor: ")
+
+    novo = Produto(
+        id_produto=id_produto,
+        nome=nome,
+        categoria=categoria,
+        preco=preco,
+        fornecedores=[fornecedor]
+    )
+
+    produtos[n] = novo
+
+    print("\nProduto adicionado com sucesso!")
+    print(novo)  # usa repr
 
