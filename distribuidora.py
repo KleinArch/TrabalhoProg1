@@ -125,7 +125,6 @@ class Produto:
         self.nome = nome
         self.categoria = categoria
         self.preco = float(preco)
-        self.qtd_estoque = int(qtd_estoque)
         self.fornecedores = fornecedores   # lista real
 
     def __repr__(self):
@@ -154,21 +153,19 @@ def ler_arquivo(nome_arquivo: str):
             preco = campos[3]
             fornecedor = campos[4]
 
-            # Transformando em lista (mesmo tendo só 1 fornecedor)
             fornecedores = [fornecedor]
-
-            # A etapa 1 NÃO tem estoque → definir padrão
-            qtd_estoque = 0
 
             produto = Produto(
                 id_produto=id_produto,
                 nome=nome,
                 categoria=categoria,
                 preco=preco,
-                qtd_estoque=qtd_estoque,
                 fornecedores=fornecedores
             )
 
             produtos.append(produto)
 
     return produtos
+
+
+
