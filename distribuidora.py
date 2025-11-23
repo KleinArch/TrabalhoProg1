@@ -131,6 +131,14 @@ while True:
         elif a == 3:
             excluir_linha()
 
+    elif resposta == 2:
+        if not produtos:
+            print("\nNenhum banco carregado! Use a opção 1 primeiro.\n")
+        else:
+            print("\n--- Produtos carregados ---")
+            for p in produtos:
+                print(p)
+
     if resposta == 3:
         def geraArquivos():
             os.makedirs('dados', exist_ok=True)
