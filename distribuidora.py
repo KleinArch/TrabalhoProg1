@@ -174,7 +174,9 @@ while True:
             n = int(input("qual tamanho de arquivo deseja gerar?\n(1-pequeno 2-médio 3-grande 4-gigante)\n:"))
             print("Gerando dados...")
             categorias = ["Alimento", "Bebida", 'Utensílio']
-
+            def geraQuatidades():
+                lista = [random.randint(1,20),random.randint(25,80)]
+                return lista
             def letrasAleatorias(n):
                 linha = ''
                 for i in range(n):
@@ -208,10 +210,10 @@ while True:
                     quantidade = 1000
                 elif n == 3:
                     nome = "grande.txt"
-                    quantidade = 4000
+                    quantidade = 40000
                 elif n == 4:
                     nome = "gigante.txt"
-                    quantidade = 20000
+                    quantidade = 1000000
                 else:
                     return
 
@@ -225,7 +227,8 @@ while True:
                         nomeProduto = letrasAleatorias(5) + f"{id}"
                         precoProduto = precosAleatorios()
                         categoria = random.choice(categorias)
-                        arquivo.write(f"{id}|{categoria}|{nomeProduto}|{precoProduto}|{nomeFornecedor}\n")
+                        quantidades = geraQuatidades()
+                        arquivo.write(f"{id}|{categoria}|{nomeProduto}|{precoProduto}|{nomeFornecedor}|{quantidades}\n")
 
             star = time.time()
             criaDados(n)
