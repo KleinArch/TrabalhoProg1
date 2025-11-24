@@ -60,7 +60,7 @@ def ler_arquivo(nome_arquivo: str):
 
 #Função Adicionar Produto( ### Etapa 3)
 
-def adicionar_produto(produtos):
+def adicionar_linha(produtos):
     print("\n--- Adicionar Novo Produto ---")
 
     id_produto = input("ID do produto: ")
@@ -79,8 +79,29 @@ def adicionar_produto(produtos):
 
     produtos.append(novo)
 
-    print("\nProduto adicionado com sucesso!")
+    print("\nLinha adicionada com sucesso!")
     print(novo)  # usa repr
+
+#Função Alterar_linha ( ### Etapa 3)
+def alterar_linha(produtos):
+    print("\n---Alterando linha---")
+
+    n = int(input("Qual linha deseja alterar?\n:"))
+    id_produto = input("ID do produto: ")
+    nome = input("Nome do produto: ")
+    categoria = input("Categoria: ")
+    preco = float(input("Preço: "))
+    fornecedor = input("Fornecedor: ")
+
+    novo = Produto(
+        id_produto=id_produto,
+        nome=nome,
+        categoria=categoria,
+        preco=preco,
+        fornecedores=fornecedor
+    )
+
+    produtos[n] = novo
 
 #----------------------------------------------
 # Variaveis Globais
@@ -98,8 +119,10 @@ while True:
           "|Selecionar banco de dados(1)\n"
           "|Visualizar banco de dados(2)\n"
           "|Criar bancos de dados(3)\n"
-          "|Acionar novo produto(4)\n"
-          "|Visualizar resultados(5)\n"
+          "|Adicionar nova linha(4)\n"
+          "|Alterar linha(5)\n"
+          "|Remover linha(6)\n"
+          "|Visualizar resultados(7)\n"
           "|Sair(0)")
     
     resposta = int(input(":"))
@@ -213,20 +236,33 @@ while True:
         print(geraArquivos())
         print("\n...de volta ao menu princilpal")
 
-    # OPÇÃO 4 — ADICIONAR NOVO PRODUTO
+    # OPÇÃO 4 — ADICIONAR NOVA LINHA
     elif resposta == 4:
         if not produtos:
             print("\nNenhum banco carregado! Use a opção 1 primeiro.\n")
         else:
-            adicionar_produto(produtos)   
+            adicionar_linha(produtos)   
 
-        #Opção 5 - Resultados
+    # OPÇÃO 5 — ALTERAR LINHA
     elif resposta == 5:
+        if not produtos:
+            print("\nNenhum banco carregado! Use a opção 1 primeiro.\n")
+        else:
+            alterar_linha(produtos) 
+
+# OPÇÃO 6 — REMOVER LINHA
+    elif resposta == 6:
+        if not produtos:
+            print("\nNenhum banco carregado! Use a opção 1 primeiro.\n")
+        else:
+            remover = int(input("Qual linha deseja remover?:"))
+            produtos.pop(remover)
+
+    #Opção 7 - Resultados
+    elif resposta == 7:
         print("\nNão tem nada aqui 😢")
 
     #FIM
     else:
         break                
-
-                
 
