@@ -2,125 +2,15 @@ import random
 import string
 import time
 import os
+
 print("__________________________\nBem Vindo(a) ao DashBoard\n__________________________\n")
-while True:
-    print("Qual funão deseja acessar?\n|Selecionar banco de dados(1)\n|Visualizar banco de dados(2)\n|Criar bancos de dados(3)\n|Visualizar resultados(4)\n|Sair(0)")
-    resposta = int(input(":"))
-    if resposta == 3:
-        def geraArquivos():
-            os.makedirs('dados', exist_ok=True)
-            n = int(input("qual tamanho de aruivo deseja gerar?\n(1-pequeno 2-médio 3-grande 4-gigante)\n:"))
-            print("Gerando dados...")
-            categorias = ["Alimento", "Bebida", 'Utensílio']
-            def letrasAleatorias(n):
-                linha = ''
-                for i in range(n):
-                    letra = random.choice(string.ascii_letters).upper()
-                    linha += letra
-                return linha
-            def geraFornecedores():
-                dig1 = random.randint(0,9)
-                dig2 = random.randint(0,9)
-                dig3 = random.randint(0,9)
-                dig4 = random.randint(0,9)
-                letra1 = random.choice(string.ascii_letters).upper()
-                letra2 = random.choice(string.ascii_letters).upper()
-                return f'{letra1}{letra2}{dig1}{dig2}{dig3}{dig4}'
-            def precosAleatorios():
-                saida = 0
-                inteiro = random.randint(1,1000)
-                decimal = random.randint(0,99)
-                saida = float(f'{inteiro}.{decimal}')
-                return saida
-            def criaDados(n):
-                listaFornecedores = []
-                if n == 1:
-                    with open("dados/pequeno.txt", "w") as arquivo:
-                        arquivo.write('')
-                        arquivo.close()
-                    for i in range(20):
-                        with open("dados/pequeno.txt", "r+") as arquivo:
-                            id = i+1
-                            nomeFornecedor = geraFornecedores()
-                            listaFornecedores += [nomeFornecedor]
-                            nomeProduto = letrasAleatorias(5)
-                            idproduto = 1
-                            while nomeProduto in arquivo:
-                                nomeProduto = f'{nomeProduto}_{idproduto}'
-                                idproduto += 1
-                            precoProduto = precosAleatorios()
-                            categoria = random.choice(categorias)
-                            arquivo.write(f"{id}|{categoria}|{nomeProduto}_{idproduto}|{precoProduto}|{nomeFornecedor}\n")
-                if n == 2:
-                    with open("dados/medio.txt", "w") as arquivo:
-                        arquivo.write('')
-                        arquivo.close()
-                    for i in range(1000):
-                        with open("dados/medio.txt", "r+") as arquivo:
-                            id = i+1
-                            nomeFornecedor = geraFornecedores()
-                            listaFornecedores += [nomeFornecedor]
-                            nomeProduto = letrasAleatorias(5)
-                            idproduto = 1
-                            while nomeProduto in arquivo:
-                                nomeProduto = f'{nomeProduto}_{idproduto}'
-                                idproduto += 1
-                            precoProduto = precosAleatorios()
-                            categoria = random.choice(categorias)
-                            arquivo.write(f"{id}|{categoria}|{nomeProduto}_{idproduto}|{precoProduto}|{nomeFornecedor}\n")
-                elif n == 3:
-                    with open("dados/grande.txt", "w") as arquivo:
-                        arquivo.write('')
-                        arquivo.close()
-                    for i in range(4000):
-                        with open("dados/grande.txt", "r+") as arquivo:
-                            id = i+1
-                            nomeFornecedor = geraFornecedores()
-                            listaFornecedores += [nomeFornecedor]
-                            nomeProduto = letrasAleatorias(5)
-                            idproduto = 1
-                            while nomeProduto in arquivo:
-                                nomeProduto = f'{nomeProduto}_{idproduto}'
-                                idproduto += 1
-                            precoProduto = precosAleatorios()
-                            categoria = random.choice(categorias)
-                            arquivo.write(f"{id}|{categoria}|{nomeProduto}_{idproduto}|{precoProduto}|{nomeFornecedor}\n")
-                elif n == 4:
-                    with open("dados/gigante.txt", "w") as arquivo:
-                        arquivo.write('')
-                        arquivo.close()
-                    for i in range(20000):
-                        with open("dados/gigante.txt", "r+") as arquivo:
-                            id = i+1
-                            nomeFornecedor = geraFornecedores()
-                            listaFornecedores += [nomeFornecedor]
-                            nomeProduto = letrasAleatorias(5)
-                            idproduto = 1
-                            while nomeProduto in arquivo:
-                                nomeProduto = f'{nomeProduto}_{idproduto}'
-                                idproduto += 1
-                            precoProduto = precosAleatorios()
-                            categoria = random.choice(categorias)
-                            arquivo.write(f"{id}|{categoria}|{nomeProduto}_{idproduto}|{precoProduto}|{nomeFornecedor}\n")
-            startTime = time.time()
-            criaDados(n)
-            endTime = time.time()
-            duracao = endTime - startTime
-            return f'a operação durou:{duracao:.3f}s'
-        print("\n")
-        print(geraArquivos())
-        print("\n...voltando ao menu inicial...\n\nBem vindo(a) de volta!\n")
-    #adicionar elif com as outras funções do programa
-    else:
-        break
 
+#-------------------------------------------------------------------------------------------
+#Etapa 2 - Classes e Funções
+#-------------------------------------------------------------------------------------------
 
-
-# ----------------------- ETAPA 2: LEITURA COM CLASSES ------------------------
-
-# Classe Produto — armazenará cada linha do arquivo
 class Produto:
-    def __init__(self, id_produto, nome, categoria, preco, qtd_estoque, fornecedores):
+    def __init__(self, id_produto, nome, categoria, preco, fornecedores):
         self.id = int(id_produto)
         self.nome = nome
         self.categoria = categoria
@@ -128,7 +18,7 @@ class Produto:
         self.fornecedores = fornecedores   # lista real
 
     def __repr__(self):
-        return f"Produto({self.id}, {self.nome}, {self.categoria})"
+        return f"Produto({self.id}, {self.nome}, {self.categoria}, {self.preco}, {self.fornecedores})"
 
 def ler_arquivo(nome_arquivo: str):
 
@@ -153,7 +43,7 @@ def ler_arquivo(nome_arquivo: str):
             preco = campos[3]
             fornecedor = campos[4]
 
-            fornecedores = [fornecedor]
+            fornecedores = str(fornecedor)
 
             produto = Produto(
                 id_produto=id_produto,
@@ -168,4 +58,175 @@ def ler_arquivo(nome_arquivo: str):
     return produtos
 
 
+#Função Adicionar Produto( ### Etapa 3)
+
+def adicionar_produto(produtos):
+    print("\n--- Adicionar Novo Produto ---")
+
+    id_produto = input("ID do produto: ")
+    nome = input("Nome do produto: ")
+    categoria = input("Categoria: ")
+    preco = float(input("Preço: "))
+    fornecedor = input("Fornecedor: ")
+
+    novo = Produto(
+        id_produto=id_produto,
+        nome=nome,
+        categoria=categoria,
+        preco=preco,
+        fornecedores=str(fornecedor)
+    )
+
+    produtos.append(novo)
+
+    print("\nProduto adicionado com sucesso!")
+    print(novo)  # usa repr
+
+#----------------------------------------------
+# Variaveis Globais
+# ---------------------------------------------
+
+produtos = []
+arquivo_atual = None
+
+#----------------------------------------------
+#Menu principal
+#----------------------------------------------
+
+while True:
+    print("Qual função deseja acessar?\n"
+          "|Selecionar banco de dados(1)\n"
+          "|Visualizar banco de dados(2)\n"
+          "|Criar bancos de dados(3)\n"
+          "|Acionar novo produto(4)\n"
+          "|Visualizar resultados(5)\n"
+          "|Sair(0)")
+    
+    resposta = int(input(":"))
+
+    #Opção 1 - Selecionar Banco
+    
+    if resposta == 1:
+        print("\nSelecione o arquivo:")
+        print("1 - pequeno.txt")
+        print("2 - medio.txt")
+        print("3 - grande.txt")
+        print("4 - gigante.txt")
+
+        escolha = int(input(":"))
+
+        if escolha == 1:
+            arquivo_atual = "pequeno.txt"
+        elif escolha == 2:
+            arquivo_atual = "medio.txt"  
+        elif escolha == 3:
+            arquivo_atual = "grande.txt"
+        elif escolha == 4:
+            arquivo_atual = "gigante.txt"
+        else:
+            print("Opção Inválida.\n")
+            continue
+
+        produtos = ler_arquivo(arquivo_atual)
+        print(f"Arquivo {arquivo_atual} carregado. {len(produtos)} produtos lidos")
+
+        #Opção 2 - Vizualizar Produtos
+    elif resposta == 2:
+        if not produtos:
+            print("\nNenhum banco carregado! Use a opção 1 primeiro.\n")
+        else:
+            print("\n ID | NOME | CATEGORIA | PRECO | FORNECEDOR")
+            print("\n--- Produtos carregados ---")
+            for p in produtos:
+                print(p)
+
+#-------------------------------------------------------------------------------------------
+#Etapa 1 - Classes e Funções
+#-------------------------------------------------------------------------------------------
+
+        #Opção 3 - Gerar arquivos
+    elif resposta == 3:
+        def geraArquivos():
+            os.makedirs('dados', exist_ok=True)
+            n = int(input("qual tamanho de arquivo deseja gerar?\n(1-pequeno 2-médio 3-grande 4-gigante)\n:"))
+            print("Gerando dados...")
+            categorias = ["Alimento", "Bebida", 'Utensílio']
+
+            def letrasAleatorias(n):
+                linha = ''
+                for i in range(n):
+                    letra = random.choice(string.ascii_letters).upper()
+                    linha += letra
+                return linha
+        
+            def geraFornecedores():
+                dig1 = random.randint(0,9)
+                dig2 = random.randint(0,9)
+                dig3 = random.randint(0,9)
+                dig4 = random.randint(0,9)
+                letra1 = random.choice(string.ascii_letters).upper()
+                letra2 = random.choice(string.ascii_letters).upper()
+                return f'{letra1}{letra2}{dig1}{dig2}{dig3}{dig4}'     
+
+            def precosAleatorios():
+                saida = 0
+                inteiro = random.randint(1,1000)
+                decimal = random.randint(0,99)
+                saida = float(f'{inteiro}.{decimal}')
+                return saida  
+        
+            def criaDados(n):
+                categorias = ["Alimento", "Bebida", 'Utensílio']
+                if n == 1:
+                    nome = "pequeno.txt"
+                    quantidade = 20
+                elif n == 2:
+                    nome = "medio.txt"
+                    quantidade = 1000
+                elif n == 3:
+                    nome = "grande.txt"
+                    quantidade = 4000
+                elif n == 4:
+                    nome = "gigante.txt"
+                    quantidade = 20000
+                else:
+                    return
+
+                with open(f"dados/{nome}", "w") as arquivo:
+                    arquivo.write("")
+
+                for i in range(quantidade):
+                    with open(f"dados/{nome}", "a") as arquivo:
+                        id = i + 1
+                        nomeFornecedor = geraFornecedores()
+                        nomeProduto = letrasAleatorias(5)
+                        precoProduto = precosAleatorios()
+                        categoria = random.choice(categorias)
+                        arquivo.write(f"{id}|{categoria}|{nomeProduto}|{precoProduto}|{nomeFornecedor}\n")
+
+            star = time.time()
+            criaDados(n)
+            end = time.time()
+            return f"A operação durou {end - star:.3f}s"
+
+        print("\n")
+        print(geraArquivos())
+        print("\n...de volta ao menu princilpal")
+
+    # OPÇÃO 4 — ADICIONAR NOVO PRODUTO
+    elif resposta == 4:
+        if not produtos:
+            print("\nNenhum banco carregado! Use a opção 1 primeiro.\n")
+        else:
+            adicionar_produto(produtos)   
+
+        #Opção 5 - Resultados
+    elif resposta == 5:
+        print("\nNão tem nada aqui 😢")
+
+    #FIM
+    else:
+        break                
+
+                
 
