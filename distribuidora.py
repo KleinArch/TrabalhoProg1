@@ -199,7 +199,7 @@ while True:
                     with open(f"dados/{nome}", "a") as arquivo:
                         id = i + 1
                         nomeFornecedor = geraFornecedores()
-                        nomeProduto = letrasAleatorias(5)
+                        nomeProduto = letrasAleatorias(5) + f"{id}"
                         precoProduto = precosAleatorios()
                         categoria = random.choice(categorias)
                         arquivo.write(f"{id}|{categoria}|{nomeProduto}|{precoProduto}|{nomeFornecedor}\n")
