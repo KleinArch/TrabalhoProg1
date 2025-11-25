@@ -10,15 +10,16 @@ print("__________________________\nBem Vindo(a) ao DashBoard\n__________________
 #-------------------------------------------------------------------------------------------
 
 class Produto:
-    def __init__(self, id_produto, nome, categoria, preco, fornecedores):
+    def __init__(self, id_produto, nome, categoria, preco, fornecedores, quantidades):
         self.id = int(id_produto)
         self.nome = nome
         self.categoria = categoria
         self.preco = float(preco)
         self.fornecedores = fornecedores   # lista real
+        self.quantidades = quantidades
 
     def __repr__(self):
-        return f"Produto({self.id}, {self.nome}, {self.categoria}, {self.preco}, {self.fornecedores})"
+        return f"Produto({self.id}, {self.nome}, {self.categoria}, {self.preco}, {self.fornecedores}, {self.quantidades})"
 
 def ler_arquivo(nome_arquivo: str):
 
@@ -35,13 +36,14 @@ def ler_arquivo(nome_arquivo: str):
             campos = linha.split("|")
 
             # Formato gerado:
-            # ID | CATEGORIA | NOME | PRECO | FORNECEDOR
+            # ID | CATEGORIA | NOME | PRECO | FORNECEDOR | QUANTIDADES
 
             id_produto = campos[0]
             categoria = campos[1]
             nome = campos[2]
             preco = campos[3]
             fornecedor = campos[4]
+            quantidades = campos[5]
 
             fornecedores = str(fornecedor)
 
@@ -50,7 +52,8 @@ def ler_arquivo(nome_arquivo: str):
                 nome=nome,
                 categoria=categoria,
                 preco=preco,
-                fornecedores=fornecedores
+                fornecedores=fornecedores,
+                quantidades=quantidades
             )
 
             produtos.append(produto)
@@ -68,13 +71,15 @@ def adicionar_linha(produtos):
     categoria = input("Categoria: ")
     preco = float(input("Preço: "))
     fornecedor = input("Fornecedor: ")
+    quantidades = list(map(int,input("Quantidade(min max): ").split()))
 
     novo = Produto(
         id_produto=id_produto,
         nome=nome,
         categoria=categoria,
         preco=preco,
-        fornecedores=str(fornecedor)
+        fornecedores=str(fornecedor),
+        quantidades=quantidades
     )
 
     produtos.append(novo)
@@ -92,13 +97,15 @@ def alterar_linha(produtos):
     categoria = input("Categoria: ")
     preco = float(input("Preço: "))
     fornecedor = input("Fornecedor: ")
+    quantidades = list(map(int,input("Quantidade(min max): ").split()))
 
     novo = Produto(
         id_produto=id_produto,
         nome=nome,
         categoria=categoria,
         preco=preco,
-        fornecedores=fornecedor
+        fornecedores=fornecedor,
+        quantidades=quantidades
     )
 
     produtos[n] = novo
@@ -158,7 +165,7 @@ while True:
         if not produtos:
             print("\nNenhum banco carregado! Use a opção 1 primeiro.\n")
         else:
-            print("\n ID | NOME | CATEGORIA | PRECO | FORNECEDOR")
+            print("\n ID | NOME | CATEGORIA | PRECO | FORNECEDOR | QUANTIDADES")
             print("\n--- Produtos carregados ---")
             for p in produtos:
                 print(p)
