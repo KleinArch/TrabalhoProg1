@@ -92,7 +92,7 @@ def alterar_linha(produtos):
     print("\n---Alterando linha---")
 
     n = int(input("Qual linha deseja alterar?\n:"))
-    id_produto = input("ID do produto: ")
+    id_produto = n
     nome = input("Nome do produto: ")
     categoria = input("Categoria: ")
     preco = float(input("Preço: "))
@@ -108,7 +108,7 @@ def alterar_linha(produtos):
         quantidades=quantidades
     )
 
-    produtos[n] = novo
+    produtos[n-1] = novo
 
 #----------------------------------------------
 # Variaveis Globais
@@ -266,11 +266,16 @@ while True:
             print("\nNenhum banco carregado! Use a opção 1 primeiro.\n")
         else:
             remover = int(input("Qual linha deseja remover?:"))
-            produtos.pop(remover)
+            produtos.pop(remover-1)
 
     #Opção 7 - Resultados
     elif resposta == 7:
-        print("\nNão tem nada aqui 😢")
+        with open("dados/resultados.txt", "w") as arquivo:
+            arquivo.write("")
+        with open("dados/resultados.txt", "a") as arquivo:
+            arquivo.write("ID | NOME | CATEGORIA | PRECO | FORNECEDOR | QUANTIDADES\n")
+            for p in produtos:
+                arquivo.write(f'{p}\n')
 
     #FIM
     else:
