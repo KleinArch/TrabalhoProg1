@@ -66,7 +66,7 @@ def ler_arquivo(nome_arquivo: str):
 def adicionar_linha(produtos):
     print("\n--- Adicionar Novo Produto ---")
 
-    id_produto = input("ID do produto: ")
+    id_produto = len(produtos)+1
     nome = input("Nome do produto: ")
     categoria = input("Categoria: ")
     preco = float(input("Preço: "))
