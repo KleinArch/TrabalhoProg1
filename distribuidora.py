@@ -10,15 +10,16 @@ print("__________________________\nBem Vindo(a) ao DashBoard\n__________________
 #-------------------------------------------------------------------------------------------
 
 class Produto:
-    def __init__(self, id_produto, nome, categoria, preco, fornecedores):
+    def __init__(self, id_produto, nome, categoria, preco, fornecedores, quantidades):
         self.id = int(id_produto)
         self.nome = nome
         self.categoria = categoria
         self.preco = float(preco)
         self.fornecedores = fornecedores   # lista real
+        self.quantidades = quantidades
 
     def __repr__(self):
-        return f"Produto({self.id}, {self.nome}, {self.categoria}, {self.preco}, {self.fornecedores})"
+        return f"Produto({self.id}, {self.nome}, {self.categoria}, {self.preco}, {self.fornecedores}, {self.quantidades})"
 
 def ler_arquivo(nome_arquivo: str):
 
@@ -35,13 +36,14 @@ def ler_arquivo(nome_arquivo: str):
             campos = linha.split("|")
 
             # Formato gerado:
-            # ID | CATEGORIA | NOME | PRECO | FORNECEDOR
+            # ID | CATEGORIA | NOME | PRECO | FORNECEDOR | QUANTIDADES
 
             id_produto = campos[0]
             categoria = campos[1]
             nome = campos[2]
             preco = campos[3]
             fornecedor = campos[4]
+            quantidades = campos[5]
 
             fornecedores = str(fornecedor)
 
@@ -50,7 +52,8 @@ def ler_arquivo(nome_arquivo: str):
                 nome=nome,
                 categoria=categoria,
                 preco=preco,
-                fornecedores=fornecedores
+                fornecedores=fornecedores,
+                quantidades=quantidades
             )
 
             produtos.append(produto)
@@ -63,18 +66,20 @@ def ler_arquivo(nome_arquivo: str):
 def adicionar_linha(produtos):
     print("\n--- Adicionar Novo Produto ---")
 
-    id_produto = input("ID do produto: ")
+    id_produto = len(produtos)+1
     nome = input("Nome do produto: ")
     categoria = input("Categoria: ")
     preco = float(input("Preço: "))
     fornecedor = input("Fornecedor: ")
+    quantidades = list(map(int,input("Quantidade(min max): ").split()))
 
     novo = Produto(
         id_produto=id_produto,
         nome=nome,
         categoria=categoria,
         preco=preco,
-        fornecedores=str(fornecedor)
+        fornecedores=str(fornecedor),
+        quantidades=quantidades
     )
 
     produtos.append(novo)
@@ -87,21 +92,23 @@ def alterar_linha(produtos):
     print("\n---Alterando linha---")
 
     n = int(input("Qual linha deseja alterar?\n:"))
-    id_produto = input("ID do produto: ")
+    id_produto = n
     nome = input("Nome do produto: ")
     categoria = input("Categoria: ")
     preco = float(input("Preço: "))
     fornecedor = input("Fornecedor: ")
+    quantidades = list(map(int,input("Quantidade(min max): ").split()))
 
     novo = Produto(
         id_produto=id_produto,
         nome=nome,
         categoria=categoria,
         preco=preco,
-        fornecedores=fornecedor
+        fornecedores=fornecedor,
+        quantidades=quantidades
     )
 
-    produtos[n] = novo
+    produtos[n-1] = novo
 
 #----------------------------------------------
 # Variaveis Globais
@@ -122,7 +129,7 @@ while True:
           "|Adicionar nova linha(4)\n"
           "|Alterar linha(5)\n"
           "|Remover linha(6)\n"
-          "|Visualizar resultados(7)\n"
+          "|Saída de Dados(7)\n"
           "|Sair(0)")
     
     resposta = int(input(":"))
@@ -158,7 +165,7 @@ while True:
         if not produtos:
             print("\nNenhum banco carregado! Use a opção 1 primeiro.\n")
         else:
-            print("\n ID | NOME | CATEGORIA | PRECO | FORNECEDOR")
+            print("\n ID | NOME | CATEGORIA | PRECO | FORNECEDOR | QUANTIDADES")
             print("\n--- Produtos carregados ---")
             for p in produtos:
                 print(p)
@@ -174,7 +181,9 @@ while True:
             n = int(input("qual tamanho de arquivo deseja gerar?\n(1-pequeno 2-médio 3-grande 4-gigante)\n:"))
             print("Gerando dados...")
             categorias = ["Alimento", "Bebida", 'Utensílio']
-
+            def geraQuatidades():
+                lista = [random.randint(1,20),random.randint(25,80)]
+                return lista
             def letrasAleatorias(n):
                 linha = ''
                 for i in range(n):
@@ -208,10 +217,10 @@ while True:
                     quantidade = 1000
                 elif n == 3:
                     nome = "grande.txt"
-                    quantidade = 4000
+                    quantidade = 40000
                 elif n == 4:
                     nome = "gigante.txt"
-                    quantidade = 20000
+                    quantidade = 140000
                 else:
                     return
 
@@ -225,7 +234,8 @@ while True:
                         nomeProduto = letrasAleatorias(5) + f"{id}"
                         precoProduto = precosAleatorios()
                         categoria = random.choice(categorias)
-                        arquivo.write(f"{id}|{categoria}|{nomeProduto}|{precoProduto}|{nomeFornecedor}\n")
+                        quantidades = geraQuatidades()
+                        arquivo.write(f"{id}|{categoria}|{nomeProduto}|{precoProduto}|{nomeFornecedor}|{quantidades}\n")
 
             star = time.time()
             criaDados(n)
@@ -256,11 +266,16 @@ while True:
             print("\nNenhum banco carregado! Use a opção 1 primeiro.\n")
         else:
             remover = int(input("Qual linha deseja remover?:"))
-            produtos.pop(remover)
+            produtos.pop(remover-1)
 
     #Opção 7 - Resultados
     elif resposta == 7:
-        print("\nNão tem nada aqui 😢")
+        with open("dados/resultados.txt", "w") as arquivo:
+            arquivo.write("")
+        with open("dados/resultados.txt", "a") as arquivo:
+            arquivo.write("ID | NOME | CATEGORIA | PRECO | FORNECEDOR | QUANTIDADES\n")
+            for p in produtos:
+                arquivo.write(f'{p}\n')
 
     #FIM
     else:
