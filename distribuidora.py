@@ -211,16 +211,16 @@ while True:
                 categorias = ["Alimento", "Bebida", 'Utensílio']
                 if n == 1:
                     nome = "pequeno.txt"
-                    quantidade = 20
+                    quantidade = 100
                 elif n == 2:
                     nome = "medio.txt"
-                    quantidade = 1000
+                    quantidade = 10000
                 elif n == 3:
                     nome = "grande.txt"
-                    quantidade = 40000
+                    quantidade = 100000
                 elif n == 4:
                     nome = "gigante.txt"
-                    quantidade = 140000
+                    quantidade = 1000000
                 else:
                     return
 

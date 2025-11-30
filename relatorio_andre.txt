@@ -1,3 +1,0 @@
-
-
-Ao iniciar a etapa 3, percebi que teria que lidar com um erro ao escolher a opção (1) no menu inicial. Caso o banco de dados não exita eu teria que redirecionar o usuario para o menu novamente, para ele posteriormente criar o banco não existente.
