@@ -208,7 +208,7 @@ while True:
                 return saida  
         
             def criaDados(n):
-                categorias = ["Alimento", "Bebida", 'Utensílio']
+                categorias = ["Alimento", "Bebida", "Utensilio"]
                 if n == 1:
                     nome = "pequeno.txt"
                     quantidade = 100
